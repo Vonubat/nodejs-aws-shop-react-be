@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { resolve } from 'path';
 import 'dotenv/config';
 
 import { NodejsAwsShopReactBeStack } from '../lib/nodejs-aws-shop-react-be-stack';
@@ -34,7 +35,7 @@ const sharedLambdaProps: NodejsFunctionProps = {
 const getProductList = new NodejsFunction(stack, 'GetProductListLambda', {
   ...sharedLambdaProps,
   functionName: 'getProductList',
-  entry: '../src/handlers/getProductList.ts',
+  entry: resolve('src/handlers/getProductList.ts'),
 });
 
 const api = new apiGateway.RestApi(stack, 'productApi', {
