@@ -1,5 +1,5 @@
 export const basicHeaders = {
-  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Allow-Credentials': true,
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': '*',
 };
@@ -22,3 +22,9 @@ export enum HttpMethod {
   /** HTTP PUT */
   PUT = 'PUT',
 }
+
+export type Res = {
+  statusCode: number;
+  headers: Record<string, any>;
+  body: string;
+};

@@ -1,11 +1,13 @@
-import { basicHeaders } from '../constants';
+import { Res, basicHeaders } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
 
-export const handler = async (event: any): Promise<Response> => {
+import { default as db } from './mockDb.json';
+
+export const handler = async (event: any): Promise<Res> => {
   try {
     console.log('getProductList_EVENT:', event);
 
-    return buildResponse(200, { products: [] }, basicHeaders);
+    return buildResponse(200, { products: db }, basicHeaders);
   } catch (e) {
     return buildResponse(500, { message: getSaveErrorMsg(e) }, basicHeaders);
   }

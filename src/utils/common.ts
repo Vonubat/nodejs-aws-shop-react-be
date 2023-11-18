@@ -1,5 +1,10 @@
-export const buildResponse = (statusCode: number, body: any, headers: HeadersInit): Response =>
-  new Response(JSON.stringify(body), { status: statusCode, headers });
+import { Res } from '../constants';
+
+export const buildResponse = (statusCode: number, body: Record<string, any>, headers: Record<string, any>): Res => ({
+  statusCode,
+  headers,
+  body: JSON.stringify(body),
+});
 
 // export const checkBodyParams = (requiredParams, key);
 
