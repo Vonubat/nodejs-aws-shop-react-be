@@ -13,7 +13,12 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
     switch (event.httpMethod) {
       case 'GET': {
         const product = getOne({ id });
-        return buildResponse(product ? 200 : 404, { product: product || ErrMsg.DOES_NOT_EXIST }, basicHeaders);
+
+        if (!product) {
+          return buildResponse(404, { message: ErrMsg.DOES_NOT_EXIST }, basicHeaders);
+        }
+
+        return buildResponse(200, { product: product }, basicHeaders);
       }
       default: {
         return buildResponse(405, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
