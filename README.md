@@ -1,14 +1,38 @@
-# Welcome to your CDK TypeScript project
+## Description
 
-This is a blank project for CDK development with TypeScript.
+There are few AWS microservices for the React shop (link below)
+[FE repository](https://github.com/Vonubat/nodejs-aws-shop-react/)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Instruction
 
-## Useful commands
+0. Go to the service folder
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+```bash
+$ cd product-service/
+```
+
+1. Rename **.env.example** to the **.env** and fill with your variables
+
+2. Install dependencies
+
+```bash
+$ npm install
+```
+
+3. AWS CDK bootstrapping
+
+```bash
+$ npm run cdk:bootstrap
+```
+
+4. AWS CDK deploying
+
+```bash
+$ npm run cdk:deploy
+```
+
+5. Run tests
+
+```bash
+$ npm run test
+```
