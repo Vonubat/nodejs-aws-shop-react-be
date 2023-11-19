@@ -38,6 +38,12 @@ const getProductList = new NodejsFunction(stack, 'GetProductListLambda', {
   entry: resolve('src/handlers/getProductList.ts'),
 });
 
+const getProductsById = new NodejsFunction(stack, 'GetProductByIdLambda', {
+  ...sharedLambdaProps,
+  functionName: 'getProductById',
+  entry: resolve('src/handlers/getProductById.ts'),
+});
+
 const api = new apiGateway.RestApi(stack, 'productApi', {
   restApiName: 'Product API',
   defaultCorsPreflightOptions: {
@@ -48,8 +54,9 @@ const api = new apiGateway.RestApi(stack, 'productApi', {
 });
 
 const products = api.root.addResource('products');
-// const product = products.addResource('{productId}');
+const product = products.addResource('{productId}');
 const productsIntegration = new apiGateway.LambdaIntegration(getProductList);
-// const productIntegration = new apiGateway.LambdaIntegration(getProductList);
+const productIntegration = new apiGateway.LambdaIntegration(getProductsById);
 
 products.addMethod(HttpMethod.GET, productsIntegration);
+product.addMethod(HttpMethod.GET, productIntegration);

@@ -1,4 +1,5 @@
 import { Res } from '../constants';
+import { ErrMsg } from '../constants';
 
 export const buildResponse = (statusCode: number, body: Record<string, any>, headers: Record<string, any>): Res => ({
   statusCode,
@@ -11,5 +12,5 @@ export const getSaveErrorMsg = (e: unknown): string => {
     return e.message;
   }
 
-  return 'Failed to do something exceptional';
+  return ErrMsg.NOT_INSTANCE_OF_ERROR;
 };

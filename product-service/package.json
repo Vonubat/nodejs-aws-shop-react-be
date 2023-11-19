@@ -9,11 +9,12 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-	"cdk:bootstrap": "npm run cdk bootstrap",
+    "cdk:bootstrap": "npm run cdk bootstrap",
     "cdk:deploy": "npm run cdk deploy --require-approval=never",
     "cdk:destroy": "npm run cdk destroy"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.126",
     "@types/jest": "^29.5.8",
     "@types/node": "20.9.0",
     "aws-cdk": "2.109.0",
