@@ -8,10 +8,10 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
   try {
     switch (event.httpMethod) {
       case 'GET': {
-        return buildResponse(200, { products: db }, basicHeaders);
+        return buildResponse(200, db, basicHeaders);
       }
       default: {
-        return buildResponse(400, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
+        return buildResponse(405, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
       }
     }
   } catch (e) {

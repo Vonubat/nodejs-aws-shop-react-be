@@ -1,7 +1,7 @@
 import { Res } from '../constants';
 import { ErrMsg } from '../constants';
 
-export const buildResponse = (statusCode: number, body: Record<string, any>, headers: Record<string, any>): Res => ({
+export const buildResponse = (statusCode: number, body: any, headers: Record<string, any>): Res => ({
   statusCode,
   headers,
   body: JSON.stringify(body),

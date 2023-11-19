@@ -7,16 +7,16 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
     const id = event.pathParameters?.productId;
 
     if (!id) {
-      return buildResponse(400, { message: ErrMsg.MISSING_ID }, basicHeaders);
+      return buildResponse(422, { message: ErrMsg.MISSING_ID }, basicHeaders);
     }
 
     switch (event.httpMethod) {
       case 'GET': {
         const product = getOne({ id });
-        return buildResponse(product ? 200 : 400, { message: product || ErrMsg.DOES_NOT_EXIST }, basicHeaders);
+        return buildResponse(product ? 200 : 404, { product: product || ErrMsg.DOES_NOT_EXIST }, basicHeaders);
       }
       default: {
-        return buildResponse(400, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
+        return buildResponse(405, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
       }
     }
   } catch (e) {
