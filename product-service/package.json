@@ -1,15 +1,15 @@
 {
-  "name": "nodejs-aws-shop-react-be",
+  "name": "product-service",
   "version": "0.1.0",
   "bin": {
-    "nodejs-aws-shop-react-be": "bin/nodejs-aws-shop-react-be.js"
+    "product-service": "bin/product-service.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "cdk:bootstrap": "npm run cdk bootstrap",
+	"cdk:bootstrap": "npm run cdk bootstrap",
     "cdk:deploy": "npm run cdk deploy --require-approval=never",
     "cdk:destroy": "npm run cdk destroy"
   },

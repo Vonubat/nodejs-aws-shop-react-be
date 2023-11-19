@@ -7,11 +7,11 @@ import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-node
 import { resolve } from 'path';
 import 'dotenv/config';
 
-import { NodejsAwsShopReactBeStack } from '../lib/nodejs-aws-shop-react-be-stack';
+import { ProductServiceStack } from '../lib/product-service-stack';
 import { HttpMethod, region } from '../src/constants';
 
 const app = new cdk.App();
-const stack = new NodejsAwsShopReactBeStack(app, 'ProductServiceStack', {
+const stack = new ProductServiceStack(app, 'ProductServiceStack', {
   env: { region },
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
@@ -48,7 +48,7 @@ const api = new apiGateway.RestApi(stack, 'productApi', {
 });
 
 const products = api.root.addResource('products');
-// const product = products.addResource('{id}');
+// const product = products.addResource('{productId}');
 const productsIntegration = new apiGateway.LambdaIntegration(getProductList);
 // const productIntegration = new apiGateway.LambdaIntegration(getProductList);
 

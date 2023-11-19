@@ -1,7 +1,7 @@
 import { Res, basicHeaders } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
 
-import { default as db } from './mockDb.json';
+import { default as db } from '../db/mockDb.json';
 
 export const handler = async (event: any): Promise<Res> => {
   try {

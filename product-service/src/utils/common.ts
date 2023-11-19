@@ -6,8 +6,6 @@ export const buildResponse = (statusCode: number, body: Record<string, any>, hea
   body: JSON.stringify(body),
 });
 
-// export const checkBodyParams = (requiredParams, key);
-
 export const getSaveErrorMsg = (e: unknown): string => {
   if (e instanceof Error) {
     return e.message;
