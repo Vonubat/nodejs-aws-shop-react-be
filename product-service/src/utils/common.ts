@@ -1,5 +1,5 @@
-import { Res } from '../constants';
 import { ErrMsg } from '../constants';
+import { Res } from '../types';
 
 export const buildResponse = (statusCode: number, body: any, headers: Record<string, any>): Res => ({
   statusCode,

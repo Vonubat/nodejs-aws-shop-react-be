@@ -1,2 +1,2 @@
-export { basicHeaders, HttpMethod, Res, ErrMsg, Product } from './common';
+export { basicHeaders, HttpMethod, ErrMsg } from './common';
 export { region } from './aws';

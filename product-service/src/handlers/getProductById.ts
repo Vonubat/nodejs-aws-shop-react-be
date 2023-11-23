@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { Res, basicHeaders, ErrMsg } from '../constants';
+import { basicHeaders, ErrMsg } from '../constants';
 import { buildResponse, getOne, getSaveErrorMsg } from '../utils';
+import { Res } from '../types';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
   try {
