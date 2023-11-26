@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { ErrMsg, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
 import { Res } from '../types';
+import { getProductByIdService } from '../services';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
   console.log(`Lambda getProductById: ${JSON.stringify(event)}`);
@@ -15,8 +16,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
 
     switch (event.httpMethod) {
       case 'GET': {
-        // const product = getOne({ id });
-        const product = { test: 42 };
+        const product = await getProductByIdService(id);
 
         if (!product) {
           return buildResponse(HttpStatusCode.NOT_FOUND, { message: ErrMsg.DOES_NOT_EXIST });

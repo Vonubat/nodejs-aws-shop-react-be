@@ -21,25 +21,29 @@ export const getProductListService = (): Promise<ProductInStock[]> => {
     }),
   );
 
-  return Promise.all([productsPromise, stocksPromise]).then(([res1, res2]) => {
-    if (!res1.Items || !res2.Items) {
+  return Promise.all([productsPromise, stocksPromise])
+    .then(([res1, res2]) => {
+      if (!res1.Items || !res2.Items) {
+        return [];
+      }
+
+      const products = (isProduct(res1.Items[0]) ? res1.Items : res2.Items) as Product[];
+      const stocks = (isStock(res1.Items[0]) ? res1.Items : res2.Items) as Stock[];
+      const stocksMap: {
+        [index: string]: number;
+      } = {};
+      stocks.forEach((it) => (stocksMap[it.product_id] = it.count));
+
+      const productsInStock: ProductInStock[] = products.map((it) => {
+        return {
+          ...it,
+          count: stocksMap[it.id] || 0,
+        };
+      });
+
+      return productsInStock;
+    })
+    .catch((_e) => {
       throw new Error(ErrMsg.DB_ERROR);
-    }
-
-    const products = (isProduct(res1.Items[0]) ? res1.Items : res2.Items) as Product[];
-    const stocks = (isStock(res1.Items[0]) ? res1.Items : res2.Items) as Stock[];
-    const stocksMap: {
-      [index: string]: number;
-    } = {};
-    stocks.forEach((it) => (stocksMap[it.product_id] = it.count));
-
-    const productsInStock: ProductInStock[] = products.map((it) => {
-      return {
-        ...it,
-        count: stocksMap[it.id] || 0,
-      };
     });
-
-    return productsInStock;
-  });
 };
