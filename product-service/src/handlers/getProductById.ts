@@ -4,6 +4,8 @@ import { buildResponse, getSaveErrorMsg } from '../utils';
 import { Res } from '../types';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
+  console.log(`Lambda getProductById: ${JSON.stringify(event)}`);
+
   try {
     const id = event.pathParameters?.productId;
 

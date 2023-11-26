@@ -1,2 +1,2 @@
 export { buildResponse, getSaveErrorMsg } from './common';
-export { generateProductData, generateStockData } from './db';
+export { generateProductData, generateStockData, isProduct, isStock } from './db';

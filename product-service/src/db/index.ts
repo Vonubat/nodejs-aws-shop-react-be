@@ -11,3 +11,5 @@ export type Stock = {
   product_id: Product['id'];
   count: number;
 };
+
+export type ProductInStock = Product & Pick<Stock, 'count'>;

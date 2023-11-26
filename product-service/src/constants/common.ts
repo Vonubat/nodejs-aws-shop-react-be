@@ -56,4 +56,5 @@ export enum ErrMsg {
   NOT_INSTANCE_OF_ERROR = 'Failed to do something exceptional',
   MISSING_ID = 'Missing path parameter: id',
   DOES_NOT_EXIST = `Product with such id doesn't exist`,
+  DB_ERROR = 'A database operation failed while processing the request.',
 }
