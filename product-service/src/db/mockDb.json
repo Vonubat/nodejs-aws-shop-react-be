@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Toyota",
+    "description": "Camry",
+    "price": 25000
+  },
+  {
+    "id": 2,
+    "title": "Honda",
+    "description": "Civic",
+    "price": 20000
+  },
+  {
+    "id": 3,
+    "title": "Nissan",
+    "description": "Altima",
+    "price": 22000
+  },
+  {
+    "id": 4,
+    "title": "Mazda",
+    "description": "Mazda3",
+    "price": 21000
+  },
+  {
+    "id": 5,
+    "title": "Subaru",
+    "description": "Impreza",
+    "price": 23000
+  },
+  {
+    "id": 6,
+    "title": "Volkswagen",
+    "description": "Jetta",
+    "price": 24000
+  },
+  {
+    "id": 7,
+    "title": "Hyundai",
+    "description": "Elantra",
+    "price": 19000
+  },
+  {
+    "id": 8,
+    "title": "Kia",
+    "description": "Forte",
+    "price": 18000
+  },
+  {
+    "id": 9,
+    "title": "Chevrolet",
+    "description": "Cruze",
+    "price": 17000
+  },
+  {
+    "id": 10,
+    "title": "Ford",
+    "description": "Focus",
+    "price": 16000
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2023-11-19T12:05:07Z",
+    "title": "Product API"
+  },
+  "host": "xhjhg6z360.execute-api.eu-west-1.amazonaws.com",
+  "basePath": "/prod",
+  "schemes": ["https"],
+  "paths": {
+    "/products": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "405": {
+            "description": "Invalid HTTP method"
+          },
+          "500": {
+            "description": "Internal server Error"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "uri": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:479708664089:function:getProductList/invocations",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Product with such id doesn't exist"
+          },
+          "405": {
+            "description": "Invalid HTTP method"
+          },
+          "422": {
+            "description": "Missing path parameter id"
+          },
+          "500": {
+            "description": "Internal server Error"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "httpMethod": "POST",
+          "uri": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:479708664089:function:getProductById/invocations",
+          "passthroughBehavior": "when_no_match",
+          "type": "aws_proxy"
+        }
+      }
+    }
+  }
+}
