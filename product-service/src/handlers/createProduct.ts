@@ -17,7 +17,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
     }
 
     if (!validateBody(body)) {
-      return buildResponse(HttpStatusCode.UNPROCESSABLE_CONTENT, { message: ErrMsg.BODY_INVALID });
+      return buildResponse(HttpStatusCode.BAD_REQUEST, { message: ErrMsg.BODY_INVALID });
     }
 
     const parsedBody = JSON.parse(body) as NewProduct;
