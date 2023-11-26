@@ -37,6 +37,12 @@ const getProductsById = new NodejsFunction(stack, 'GetProductByIdLambda', {
   entry: resolve('src/handlers/getProductById.ts'),
 });
 
+const createProduct = new NodejsFunction(stack, 'CreateProductLambda', {
+  ...sharedLambdaProps,
+  functionName: 'createProduct',
+  entry: resolve('src/handlers/createProduct.ts'),
+});
+
 const api = new apiGateway.RestApi(stack, 'productApi', {
   restApiName: 'Product API',
   defaultCorsPreflightOptions: {
@@ -48,11 +54,14 @@ const api = new apiGateway.RestApi(stack, 'productApi', {
 
 const products = api.root.addResource('products');
 const product = products.addResource('{productId}');
-const productsIntegration = new apiGateway.LambdaIntegration(getProductList);
-const productIntegration = new apiGateway.LambdaIntegration(getProductsById);
 
-products.addMethod(HttpMethod.GET, productsIntegration);
-product.addMethod(HttpMethod.GET, productIntegration);
+const getProductListIntegration = new apiGateway.LambdaIntegration(getProductList);
+const getProductsByIdIntegration = new apiGateway.LambdaIntegration(getProductsById);
+const createProductIntegration = new apiGateway.LambdaIntegration(createProduct);
+
+products.addMethod(HttpMethod.GET, getProductListIntegration);
+products.addMethod(HttpMethod.POST, createProductIntegration);
+product.addMethod(HttpMethod.GET, getProductsByIdIntegration);
 
 const productsTable = new Table(stack, 'products', {
   tableName: productsTableName,
@@ -64,6 +73,7 @@ const productsTable = new Table(stack, 'products', {
 
 productsTable.grantReadData(getProductList);
 productsTable.grantReadData(getProductsById);
+productsTable.grantWriteData(createProduct);
 
 const stocksTable = new Table(stack, 'stock', {
   tableName: stocksTableName,
@@ -75,3 +85,4 @@ const stocksTable = new Table(stack, 'stock', {
 
 stocksTable.grantReadData(getProductList);
 stocksTable.grantReadData(getProductsById);
+stocksTable.grantWriteData(createProduct);

@@ -13,3 +13,10 @@ export type Stock = {
 };
 
 export type ProductInStock = Product & Pick<Stock, 'count'>;
+
+export type NewProduct = {
+  title: Product['title'];
+  description: Product['description'];
+  price: Product['price'];
+  count: Stock['count'];
+};

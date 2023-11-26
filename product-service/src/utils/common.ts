@@ -7,6 +7,19 @@ export const buildResponse = (statusCode: number, body: any): Res => ({
   body: JSON.stringify(body),
 });
 
+export const validateBody = (body: string): boolean => {
+  const newProduct = JSON.parse(body);
+  const { title, description, price, count } = newProduct;
+
+  return (
+    typeof title === 'string' &&
+    title.length > 0 &&
+    typeof description === 'string' &&
+    typeof price === 'number' &&
+    typeof count === 'number'
+  );
+};
+
 export const getSaveErrorMsg = (e: unknown): string => {
   if (e instanceof Error) {
     return e.message;

@@ -30,6 +30,11 @@ export enum HttpStatusCode {
    */
   OK = 200,
   /**
+   * 400 Bad Request
+   * The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).
+   */
+  BAD_REQUEST = 400,
+  /**
    * 404 Not Found
    * The server cannot find the requested resource.
    */
@@ -55,6 +60,8 @@ export enum ErrMsg {
   INVALID_HTTP_METHOD = 'Invalid HTTP method',
   NOT_INSTANCE_OF_ERROR = 'Failed to do something exceptional',
   MISSING_ID = 'Missing path parameter: id',
+  MISSING_BODY = 'Required request body is missing',
+  BODY_INVALID = 'The provided body does not match the schema',
   DOES_NOT_EXIST = `Product with such id doesn't exist`,
   DB_ERROR = 'A database operation failed while processing the request.',
 }

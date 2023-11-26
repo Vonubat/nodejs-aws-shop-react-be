@@ -1,21 +1,21 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { ErrMsg, HttpStatusCode } from '../constants';
+import { ErrMsg, HttpMethod, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
 import { Res } from '../types';
 import { getProductByIdService } from '../services';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
-  console.log(`Lambda getProductById: ${JSON.stringify(event)}`);
+  console.log(`GetProductByIdLambda: ${JSON.stringify(event)}`);
 
   try {
     const id = event.pathParameters?.productId;
 
     if (!id) {
-      return buildResponse(HttpStatusCode.UNPROCESSABLE_CONTENT, { message: ErrMsg.MISSING_ID });
+      return buildResponse(HttpStatusCode.BAD_REQUEST, { message: ErrMsg.MISSING_ID });
     }
 
     switch (event.httpMethod) {
-      case 'GET': {
+      case HttpMethod.GET: {
         const product = await getProductByIdService(id);
 
         if (!product) {
