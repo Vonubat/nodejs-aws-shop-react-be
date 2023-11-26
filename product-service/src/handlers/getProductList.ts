@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { basicHeaders, ErrMsg } from '../constants';
+import { ErrMsg, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
 import { db } from '../db';
 import { Res } from '../types';
@@ -8,13 +8,13 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
   try {
     switch (event.httpMethod) {
       case 'GET': {
-        return buildResponse(200, db, basicHeaders);
+        return buildResponse(HttpStatusCode.OK, db);
       }
       default: {
-        return buildResponse(405, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
+        return buildResponse(HttpStatusCode.METHOD_NOT_ALLOWED, { message: ErrMsg.INVALID_HTTP_METHOD });
       }
     }
   } catch (e) {
-    return buildResponse(500, { message: getSaveErrorMsg(e) }, basicHeaders);
+    return buildResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, { message: getSaveErrorMsg(e) });
   }
 };

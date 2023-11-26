@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { basicHeaders, ErrMsg } from '../constants';
+import { ErrMsg, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
 import { Res } from '../types';
 
@@ -8,7 +8,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
     const id = event.pathParameters?.productId;
 
     if (!id) {
-      return buildResponse(422, { message: ErrMsg.MISSING_ID }, basicHeaders);
+      return buildResponse(HttpStatusCode.UNPROCESSABLE_CONTENT, { message: ErrMsg.MISSING_ID });
     }
 
     switch (event.httpMethod) {
@@ -17,16 +17,16 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
         const product = { test: 42 };
 
         if (!product) {
-          return buildResponse(404, { message: ErrMsg.DOES_NOT_EXIST }, basicHeaders);
+          return buildResponse(HttpStatusCode.NOT_FOUND, { message: ErrMsg.DOES_NOT_EXIST });
         }
 
-        return buildResponse(200, { product: product }, basicHeaders);
+        return buildResponse(HttpStatusCode.OK, { product: product });
       }
       default: {
-        return buildResponse(405, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
+        return buildResponse(HttpStatusCode.METHOD_NOT_ALLOWED, { message: ErrMsg.INVALID_HTTP_METHOD });
       }
     }
   } catch (e) {
-    return buildResponse(500, { message: getSaveErrorMsg(e) }, basicHeaders);
+    return buildResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, { message: getSaveErrorMsg(e) });
   }
 };
