@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { basicHeaders, ErrMsg } from '../constants';
-import { buildResponse, getOne, getSaveErrorMsg } from '../utils';
+import { buildResponse, getSaveErrorMsg } from '../utils';
 import { Res } from '../types';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
@@ -13,7 +13,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
 
     switch (event.httpMethod) {
       case 'GET': {
-        const product = getOne({ id });
+        // const product = getOne({ id });
+        const product = { test: 42 };
 
         if (!product) {
           return buildResponse(404, { message: ErrMsg.DOES_NOT_EXIST }, basicHeaders);

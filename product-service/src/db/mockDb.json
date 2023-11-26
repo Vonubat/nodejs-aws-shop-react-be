@@ -1,62 +1,52 @@
 [
   {
-    "id": 1,
-    "title": "Toyota",
-    "description": "Camry",
+    "title": "Toyota Camry",
+    "description": "The Toyota Camry is a stylish mid-size sedan that combines elegance with exceptional fuel efficiency. With its spacious interior and advanced safety features, it offers a smooth and comfortable ride for both city commuting and long road trips.",
     "price": 25000
   },
   {
-    "id": 2,
-    "title": "Honda",
-    "description": "Civic",
+    "title": "Honda Civic",
+    "description": "The Honda Civic is a versatile compact car that strikes the perfect balance between performance and fuel economy. Its aerodynamic design, cutting-edge technology, and comfortable cabin make it a popular choice among drivers seeking both practicality and excitement on the road.",
     "price": 20000
   },
   {
-    "id": 3,
-    "title": "Nissan",
-    "description": "Altima",
-    "price": 22000
-  },
-  {
-    "id": 4,
-    "title": "Mazda",
-    "description": "Mazda3",
-    "price": 21000
-  },
-  {
-    "id": 5,
-    "title": "Subaru",
-    "description": "Impreza",
-    "price": 23000
-  },
-  {
-    "id": 6,
-    "title": "Volkswagen",
-    "description": "Jetta",
-    "price": 24000
-  },
-  {
-    "id": 7,
-    "title": "Hyundai",
-    "description": "Elantra",
-    "price": 19000
-  },
-  {
-    "id": 8,
-    "title": "Kia",
-    "description": "Forte",
+    "title": "Ford Focus",
+    "description": "The Ford Focus is a dynamic compact car that delivers an exhilarating driving experience. With its sporty handling, responsive engine, and advanced infotainment system, it's designed to make every journey enjoyable, whether you're navigating city streets or exploring winding country roads.",
     "price": 18000
   },
   {
-    "id": 9,
-    "title": "Chevrolet",
-    "description": "Cruze",
-    "price": 17000
+    "title": "Chevy Cruze",
+    "description": "The Chevy Cruze is a compact car that offers a refined driving experience with its smooth suspension and quiet cabin. Its sleek exterior design, combined with advanced safety features and modern technology, makes it a reliable and comfortable choice for daily commuting or weekend getaways.",
+    "price": 16000
   },
   {
-    "id": 10,
-    "title": "Ford",
-    "description": "Focus",
-    "price": 16000
+    "title": "Hyundai Elantra",
+    "description": "The Hyundai Elantra is a compact car that stands out with its sleek and sophisticated design. Packed with innovative features, including a user-friendly infotainment system and a range of driver assistance technologies, it provides a comfortable and connected ride for both driver and passengers.",
+    "price": 15000
+  },
+  {
+    "title": "Kia Forte",
+    "description": "The Kia Forte is a compact car that impresses with its sporty yet elegant exterior. With its comfortable seating, generous cargo space, and advanced safety features, it offers a practical and enjoyable driving experience for both urban adventures and long-distance travels.",
+    "price": 14000
+  },
+  {
+    "title": "Mazda3",
+    "description": "The Mazda3 is a compact car that combines sportiness with luxury. Its dynamic performance, premium interior, and attention to detail make it a standout choice for those who appreciate a refined driving experience and want to make a statement on the road.",
+    "price": 13000
+  },
+  {
+    "title": "Nissan Sentra",
+    "description": "The Nissan Sentra is a compact car that offers a spacious and comfortable cabin, making it an ideal choice for families and commuters alike. With its fuel-efficient engine and advanced safety features, it provides a reliable and enjoyable driving experience on any journey.",
+    "price": 12000
+  },
+  {
+    "title": "Subaru Impreza",
+    "description": "The Subaru Impreza is a compact car that sets itself apart with its legendary all-wheel drive system, ensuring excellent traction and stability in various road conditions. Its roomy interior, advanced safety features, and fuel efficiency make it a practical and capable choice for everyday driving.",
+    "price": 11000
+  },
+  {
+    "title": "Volkswagen Jetta",
+    "description": "The Volkswagen Jetta is a compact car that exudes sophistication and German engineering. With its refined interior, precise handling, and advanced technology, it offers a premium driving experience that combines comfort, style, and performance.",
+    "price": 10000
   }
 ]
