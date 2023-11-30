@@ -2,17 +2,23 @@
   "swagger": "2.0",
   "info": {
     "version": "2023-11-19T12:05:07Z",
-    "title": "Product API"
+    "title": "Nodejs-aws-shop-react-be-vonubat API"
   },
-  "host": "xhjhg6z360.execute-api.eu-west-1.amazonaws.com",
+  "host": "eq9tv9rnqg.execute-api.eu-west-1.amazonaws.com",
   "basePath": "/prod",
   "schemes": ["https"],
+  "tags": [
+    {
+      "name": "products"
+    }
+  ],
   "paths": {
     "/products": {
       "get": {
+        "description": "Get all product",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successful operation"
           },
           "405": {
             "description": "Invalid HTTP method"
@@ -21,16 +27,46 @@
             "description": "Internal server Error"
           }
         },
-        "x-amazon-apigateway-integration": {
-          "httpMethod": "POST",
-          "uri": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:479708664089:function:getProductList/invocations",
-          "passthroughBehavior": "when_no_match",
-          "type": "aws_proxy"
-        }
+        "tags": ["products"]
+      },
+      "post": {
+        "description": "Create product",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "description": "DTO object",
+              "example": {
+                "title": "Super Car",
+                "description": "Very fast",
+                "price": 10000,
+                "count": 42
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "405": {
+            "description": "Invalid HTTP method"
+          },
+          "500": {
+            "description": "Internal server Error"
+          }
+        },
+        "tags": ["products"]
       }
     },
     "/products/{productId}": {
       "get": {
+        "description": "Get product by ID",
         "parameters": [
           {
             "name": "productId",
@@ -41,27 +77,22 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
-            "description": "Product with such id doesn't exist"
+            "description": "Not found"
           },
           "405": {
             "description": "Invalid HTTP method"
-          },
-          "422": {
-            "description": "Missing path parameter id"
           },
           "500": {
             "description": "Internal server Error"
           }
         },
-        "x-amazon-apigateway-integration": {
-          "httpMethod": "POST",
-          "uri": "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:479708664089:function:getProductById/invocations",
-          "passthroughBehavior": "when_no_match",
-          "type": "aws_proxy"
-        }
+        "tags": ["products"]
       }
     }
   }
