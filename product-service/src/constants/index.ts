@@ -1,2 +1,2 @@
-export { basicHeaders, HttpMethod, ErrMsg } from './common';
-export { region } from './aws';
+export { basicHeaders, HttpMethod, HttpStatusCode, ErrMsg } from './common';
+export { region, productsTableName, stocksTableName } from './aws';

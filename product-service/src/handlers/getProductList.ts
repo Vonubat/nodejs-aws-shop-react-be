@@ -1,20 +1,23 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { basicHeaders, ErrMsg } from '../constants';
+import { ErrMsg, HttpMethod, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
-import { db } from '../db';
 import { Res } from '../types';
+import { getProductListService } from '../services';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
+  console.log(`GetProductListLambda: ${JSON.stringify(event)}`);
+
   try {
     switch (event.httpMethod) {
-      case 'GET': {
-        return buildResponse(200, db, basicHeaders);
+      case HttpMethod.GET: {
+        const products = await getProductListService();
+        return buildResponse(HttpStatusCode.OK, products);
       }
       default: {
-        return buildResponse(405, { message: ErrMsg.INVALID_HTTP_METHOD }, basicHeaders);
+        return buildResponse(HttpStatusCode.METHOD_NOT_ALLOWED, { message: ErrMsg.INVALID_HTTP_METHOD });
       }
     }
   } catch (e) {
-    return buildResponse(500, { message: getSaveErrorMsg(e) }, basicHeaders);
+    return buildResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, { message: getSaveErrorMsg(e) });
   }
 };
