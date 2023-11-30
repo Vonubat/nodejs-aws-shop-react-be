@@ -15,7 +15,7 @@
   "paths": {
     "/products": {
       "get": {
-        "description": "Get all product",
+        "description": "Get all products",
         "responses": {
           "200": {
             "description": "Successful operation"
