@@ -31,8 +31,18 @@ $ npm run cdk:bootstrap
 $ npm run cdk:deploy
 ```
 
-5. Run tests
+5. Seed the base
+
+```bash
+$ npm run db:seed
+```
+
+#### Additional info:
+
+1. Run tests
 
 ```bash
 $ npm run test
 ```
+
+2. Swagger spec **(./openapi.json)**. Just copy content of file to the https://editor-next.swagger.io/
