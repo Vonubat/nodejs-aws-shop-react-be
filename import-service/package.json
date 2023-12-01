@@ -1,0 +1,35 @@
+{
+  "name": "import-service",
+  "version": "0.1.0",
+  "bin": {
+    "import-service": "bin/import-service.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk:bootstrap": "npm run cdk bootstrap",
+    "cdk:deploy": "npm run cdk deploy --require-approval=never",
+    "cdk:destroy": "npm run cdk destroy",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "@types/node": "20.9.1",
+    "aws-cdk": "2.112.0",
+    "esbuild": "^0.19.8",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.2.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.462.0",
+    "aws-cdk-lib": "2.112.0",
+    "constructs": "^10.0.0",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.3.1",
+    "source-map-support": "^0.5.21"
+  }
+}
