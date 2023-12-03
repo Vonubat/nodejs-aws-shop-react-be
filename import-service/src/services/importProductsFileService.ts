@@ -1,13 +1,13 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-import { ErrMsg, bucketName, region } from '../constants';
+import { ErrMsg, bucketName, prefix, region } from '../constants';
 
 export const importProductsFileService = (fileName: string) => {
-  const path = `uploaded/${fileName}`;
+  const key = `${prefix}${fileName}`;
   const params = {
     Bucket: bucketName,
-    Key: path,
+    Key: key,
     ContentType: 'text/csv',
   };
 

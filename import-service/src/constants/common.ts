@@ -66,4 +66,6 @@ export enum ErrMsg {
   DOES_NOT_EXIST = `Product with such id doesn't exist`,
   DB_ERROR = 'A database operation failed while processing the request.',
   S3_CLIENT_ERROR = 'A database operation failed while processing the request.',
+  STREAM_ERROR_MISSING = 'Stream Readable object is missing',
+  STREAM_ERROR_PARSING = 'CSV file parsing error',
 }

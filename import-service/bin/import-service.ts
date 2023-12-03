@@ -10,7 +10,7 @@ import { ImportServiceStack } from '../lib/import-service-stack';
 import { resolve } from 'path';
 import 'dotenv/config';
 
-import { HttpMethod, bucketName, region } from '../src/constants';
+import { HttpMethod, bucketName, prefix, region } from '../src/constants';
 
 const app = new App();
 const stack = new ImportServiceStack(app, 'ImportServiceStack', {
@@ -54,4 +54,8 @@ const importProductsFileIntegration = new LambdaIntegration(importProductsFile);
 importResource.addMethod(HttpMethod.GET, importProductsFileIntegration);
 
 bucket.grantReadWrite(importProductsFile);
-bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(importFileParser));
+bucket.grantDelete(importFileParser);
+
+bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(importFileParser), {
+  prefix,
+});
