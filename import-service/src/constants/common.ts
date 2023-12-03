@@ -60,7 +60,7 @@ export enum ErrMsg {
   INVALID_HTTP_METHOD = 'Invalid HTTP method',
   NOT_INSTANCE_OF_ERROR = 'Failed to do something exceptional',
   MISSING_ID = 'Missing path parameter: id',
-  MISSING_FILE_NAME = 'Missing path parameter: name',
+  MISSING_FILE_NAME = 'Missing query string parameter: name',
   MISSING_BODY = 'Required request body is missing',
   BODY_INVALID = 'The provided body does not match the schema',
   DOES_NOT_EXIST = `Product with such id doesn't exist`,
