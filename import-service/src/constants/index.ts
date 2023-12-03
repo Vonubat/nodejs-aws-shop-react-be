@@ -1,2 +1,2 @@
 export { region, bucketName } from './aws';
-export { HttpMethod } from './common';
+export { HttpMethod, HttpStatusCode, ErrMsg, basicHeaders } from './common';
