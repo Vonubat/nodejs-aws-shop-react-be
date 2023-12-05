@@ -1,7 +1,6 @@
-| title | description | price | count |
-|---|---|---|---|
-| Toyota Camry | 2023 Toyota Camry LE | $24,970 | 10 |
-| Honda Civic | 2023 Honda Civic LX | $21,960 | 15 |
-| Nissan Altima | 2023 Nissan Altima S | $23,950 | 20 |
-| Mazda3 | 2023 Mazda3 Sport | $21,900 | 25 |
-| Subaru Impreza | 2023 Subaru Impreza Base | $19,795 | 30 |
+title,description,price,count
+Toyota Camry,2023 Toyota Camry LE,24970,10
+Honda Civic,2023 Honda Civic LX,21960,15
+Nissan Altima,2023 Nissan Altima S,23950,20
+Mazda3,2023 Mazda3 Sport,21900,25
+Subaru Impreza,2023 Subaru Impreza Base,19795,30
