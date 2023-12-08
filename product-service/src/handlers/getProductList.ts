@@ -1,10 +1,9 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import { ErrMsg, HttpMethod, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg } from '../utils';
-import { Res } from '../types';
 import { getProductListService } from '../services';
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
+export const handler: APIGatewayProxyHandler = async (event) => {
   console.log(`GetProductListLambda: ${JSON.stringify(event)}`);
 
   try {

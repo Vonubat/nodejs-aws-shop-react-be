@@ -1,12 +1,11 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import { ErrMsg, HttpStatusCode } from '../constants';
 import { buildResponse, getSaveErrorMsg, validateBody } from '../utils';
-import { Res } from '../types';
 import { HttpMethod } from 'aws-cdk-lib/aws-events';
 import { createProductService } from '../services/createProductService';
 import { NewProduct } from '../db';
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
+export const handler: APIGatewayProxyHandler = async (event) => {
   console.log(`CreateProductLambda: ${JSON.stringify(event)}`);
 
   try {

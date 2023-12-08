@@ -19,17 +19,17 @@ const stack = new ProductServiceStack(app, 'ProductServiceStack', {
   env: { region },
 });
 
-const catalogItemsQueue = new Queue(stack, 'ImportQueue', {
-  queueName: 'import-file-queue',
+const catalogItemsQueue = new Queue(stack, 'CatalogItemsQueue', {
+  queueName: 'catalog-items-queue',
 });
-const importProductTopic = new Topic(stack, 'ImportProductTopic', {
+const importProductsTopic = new Topic(stack, 'ImportProductsTopic', {
   topicName: 'import-products-topic',
 });
 
 new Subscription(stack, 'BigStockSubscription', {
   endpoint: bigStockEmail,
   protocol: SubscriptionProtocol.EMAIL,
-  topic: importProductTopic,
+  topic: importProductsTopic,
 });
 
 const sharedLambdaProps: NodejsFunctionProps = {
@@ -38,7 +38,7 @@ const sharedLambdaProps: NodejsFunctionProps = {
     PRODUCT_AWS_REGION: region,
     PRODUCTS_TABLE_NAME: productsTableName,
     STOCKS_TABLE_NAME: stocksTableName,
-    IMPORT_PRODUCT_TOPIC_ARN: importProductTopic.topicArn,
+    IMPORT_PRODUCT_TOPIC_ARN: importProductsTopic.topicArn,
   },
 };
 
@@ -66,7 +66,7 @@ const catalogBatchProccess = new NodejsFunction(stack, 'CatalogBatchProccessLamb
   entry: resolve('src/handlers/catalogBatchProccess.ts'),
 });
 
-importProductTopic.grantPublish(catalogBatchProccess);
+importProductsTopic.grantPublish(catalogBatchProccess);
 catalogBatchProccess.addEventSource(new SqsEventSource(catalogItemsQueue, { batchSize }));
 
 const api = new RestApi(stack, 'productApi', {
