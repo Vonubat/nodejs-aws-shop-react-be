@@ -14,14 +14,10 @@ export const importProductsFileService = (fileName: string) => {
   const command = new PutObjectCommand(params);
   const client = new S3Client({ region });
 
-  return client
-    .send(command)
-    .then((_output) => {
-      return getSignedUrl(client, command)
-        .then((url) => url)
-        .catch(() => {
-          throw new Error(ErrMsg.S3_CLIENT_ERROR);
-        });
+  return getSignedUrl(client, command)
+    .then((url) => url)
+    .catch(() => {
+      throw new Error(ErrMsg.S3_CLIENT_ERROR);
     })
     .catch(() => {
       throw new Error(ErrMsg.S3_CLIENT_ERROR);

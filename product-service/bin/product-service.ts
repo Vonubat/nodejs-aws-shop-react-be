@@ -100,6 +100,7 @@ const productsTable = new Table(stack, 'products', {
 productsTable.grantReadData(getProductList);
 productsTable.grantReadData(getProductsById);
 productsTable.grantWriteData(createProduct);
+productsTable.grantWriteData(catalogBatchProccess);
 
 const stocksTable = new Table(stack, 'stock', {
   tableName: stocksTableName,
@@ -112,3 +113,4 @@ const stocksTable = new Table(stack, 'stock', {
 stocksTable.grantReadData(getProductList);
 stocksTable.grantReadData(getProductsById);
 stocksTable.grantWriteData(createProduct);
+stocksTable.grantWriteData(catalogBatchProccess);

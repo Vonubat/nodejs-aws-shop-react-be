@@ -1,10 +1,9 @@
 import { APIGatewayProxyResult, SQSEvent } from 'aws-lambda';
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 import { ErrMsg, HttpStatusCode, importProductsTopicArn, region } from '../constants';
-import { buildResponse, getSaveErrorMsg, validateBody } from '../utils';
+import { buildResponse, getSaveErrorMsg, parseBody, validateBody } from '../utils';
 
 import { createProductService } from '../services/createProductService';
-import { NewProduct } from '../db';
 
 export const handler = async (event: SQSEvent): Promise<APIGatewayProxyResult> => {
   console.log(`catalogBatchProcessLambda: ${JSON.stringify(event)}`);
@@ -20,11 +19,12 @@ export const handler = async (event: SQSEvent): Promise<APIGatewayProxyResult> =
         return buildResponse(HttpStatusCode.BAD_REQUEST, { message: ErrMsg.MISSING_BODY });
       }
 
-      if (!validateBody(body)) {
+      const parsedBody = parseBody(body);
+
+      if (!validateBody(parsedBody)) {
         return buildResponse(HttpStatusCode.BAD_REQUEST, { message: ErrMsg.BODY_INVALID });
       }
 
-      const parsedBody = JSON.parse(body) as NewProduct;
       const product = await createProductService(parsedBody);
 
       await snsClient.send(

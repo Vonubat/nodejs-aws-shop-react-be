@@ -1,22 +1,31 @@
+import { APIGatewayProxyResult } from 'aws-lambda';
 import { ErrMsg, basicHeaders } from '../constants';
-import { Res } from '../types';
+import { NewProduct } from '../db';
 
-export const buildResponse = (statusCode: number, body: any): Res => ({
+export const buildResponse = (statusCode: number, body: any): APIGatewayProxyResult => ({
   statusCode,
   headers: basicHeaders,
   body: JSON.stringify(body),
 });
 
-export const validateBody = (body: string): boolean => {
+export const parseBody = (body: string): Record<string, any> => {
   const newProduct = JSON.parse(body);
   const { title, description, price, count } = newProduct;
+
+  return { title, description, price: parseInt(price), count: parseInt(count) };
+};
+
+export const validateBody = (body: Record<string, any>): body is NewProduct => {
+  const { title, description, price, count } = body;
 
   return (
     typeof title === 'string' &&
     title.length > 0 &&
     typeof description === 'string' &&
     typeof price === 'number' &&
-    typeof count === 'number'
+    price > 0 &&
+    typeof count === 'number' &&
+    count > 0
   );
 };
 
