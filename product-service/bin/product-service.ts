@@ -5,14 +5,23 @@ import { LambdaIntegration, Cors, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
-import { Topic, Subscription, SubscriptionProtocol } from 'aws-cdk-lib/aws-sns';
+import { Topic, SubscriptionFilter } from 'aws-cdk-lib/aws-sns';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 import { resolve } from 'path';
 import 'dotenv/config';
 
 import { ProductServiceStack } from '../lib/product-service-stack';
-import { HttpMethod, batchSize, bigStockEmail, productsTableName, region, stocksTableName } from '../src/constants';
+import {
+  HttpMethod,
+  batchSize,
+  bigStockEmail,
+  productsTableName,
+  region,
+  smallStockEmail,
+  stocksTableName,
+} from '../src/constants';
 
 const app = new App();
 const stack = new ProductServiceStack(app, 'ProductServiceStack', {
@@ -26,11 +35,25 @@ const importProductsTopic = new Topic(stack, 'ImportProductsTopic', {
   topicName: 'import-products-topic',
 });
 
-new Subscription(stack, 'BigStockSubscription', {
-  endpoint: bigStockEmail,
-  protocol: SubscriptionProtocol.EMAIL,
-  topic: importProductsTopic,
-});
+importProductsTopic.addSubscription(
+  new EmailSubscription(smallStockEmail, {
+    filterPolicy: {
+      count: SubscriptionFilter.numericFilter({
+        lessThan: 20,
+      }),
+    },
+  }),
+);
+
+importProductsTopic.addSubscription(
+  new EmailSubscription(bigStockEmail, {
+    filterPolicy: {
+      count: SubscriptionFilter.numericFilter({
+        greaterThan: 19,
+      }),
+    },
+  }),
+);
 
 const sharedLambdaProps: NodejsFunctionProps = {
   runtime: Runtime.NODEJS_18_X,
