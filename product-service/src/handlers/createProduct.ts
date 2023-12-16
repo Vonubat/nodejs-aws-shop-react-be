@@ -1,12 +1,10 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import { ErrMsg, HttpStatusCode } from '../constants';
-import { buildResponse, getSaveErrorMsg, validateBody } from '../utils';
-import { Res } from '../types';
+import { buildResponse, getSaveErrorMsg, parseBody, validateBody } from '../utils';
 import { HttpMethod } from 'aws-cdk-lib/aws-events';
 import { createProductService } from '../services/createProductService';
-import { NewProduct } from '../db';
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
+export const handler: APIGatewayProxyHandler = async (event) => {
   console.log(`CreateProductLambda: ${JSON.stringify(event)}`);
 
   try {
@@ -16,11 +14,11 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<Res> => {
       return buildResponse(HttpStatusCode.BAD_REQUEST, { message: ErrMsg.MISSING_BODY });
     }
 
-    if (!validateBody(body)) {
+    const parsedBody = parseBody(body);
+
+    if (!validateBody(parsedBody)) {
       return buildResponse(HttpStatusCode.BAD_REQUEST, { message: ErrMsg.BODY_INVALID });
     }
-
-    const parsedBody = JSON.parse(body) as NewProduct;
 
     switch (event.httpMethod) {
       case HttpMethod.POST: {

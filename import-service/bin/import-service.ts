@@ -7,10 +7,11 @@ import { RestApi, Cors, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { ImportServiceStack } from '../lib/import-service-stack';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { resolve } from 'path';
 import 'dotenv/config';
 
-import { HttpMethod, bucketName, prefix, region } from '../src/constants';
+import { HttpMethod, bucketName, catalogItemsQueueArn, prefix, region } from '../src/constants';
 
 const app = new App();
 const stack = new ImportServiceStack(app, 'ImportServiceStack', {
@@ -18,12 +19,14 @@ const stack = new ImportServiceStack(app, 'ImportServiceStack', {
 });
 
 const bucket = Bucket.fromBucketName(stack, 'ImportBucket', bucketName);
+const queue = Queue.fromQueueArn(stack, 'CatalogItemsQueue', catalogItemsQueueArn);
 
 const sharedLambdaProps: NodejsFunctionProps = {
   runtime: Runtime.NODEJS_18_X,
   environment: {
     PRODUCT_AWS_REGION: region,
     BUCKET_NAME: bucketName,
+    IMPORT_SQS_URL: queue.queueUrl,
   },
 };
 
@@ -38,6 +41,7 @@ const importFileParser = new NodejsFunction(stack, 'importFileParserLambda', {
   functionName: 'importFileParser',
   entry: resolve('src/handlers/importFileParser.ts'),
 });
+queue.grantSendMessages(importFileParser);
 
 const api = new RestApi(stack, 'importApi', {
   restApiName: 'Import API',

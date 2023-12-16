@@ -1,9 +1,11 @@
 import { CopyObjectCommand, DeleteObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs';
 import { Readable } from 'stream';
 import csv from 'csv-parser';
 
-import { ErrMsg, bucketName, region } from '../constants';
+import { ErrMsg, bucketName, queueUrl, region } from '../constants';
 import { getSaveErrorMsg } from '../utils';
+import { pseudoRandomBytes } from 'crypto';
 
 export const importFileParserService = async (key: string) => {
   try {
@@ -28,9 +30,11 @@ export const importFileParserService = async (key: string) => {
     const getCommand = new GetObjectCommand(srcParams);
     const copyCommand = new CopyObjectCommand(destParams);
     const deleteCommand = new DeleteObjectCommand(srcParams);
-    const client = new S3Client({ region });
 
-    const { Body: stream } = await client.send(getCommand);
+    const s3client = new S3Client({ region });
+    const sqsClient = new SQSClient({ region });
+
+    const { Body: stream } = await s3client.send(getCommand);
 
     if (!stream) {
       throw new Error(ErrMsg.STREAM_ERROR_MISSING);
@@ -39,17 +43,21 @@ export const importFileParserService = async (key: string) => {
     return new Promise<string>((resolve, reject) => {
       (stream as Readable)
         .pipe(csv())
-        .on('data', (chunk) => {
-          console.log('CSV chunk:', chunk);
+        .on('data', async (chunk) => {
+          const snsCommand = {
+            QueueUrl: queueUrl,
+            MessageBody: JSON.stringify(chunk),
+          };
+          await sqsClient.send(new SendMessageCommand(snsCommand));
         })
         .on('end', async () => {
           const message = 'CSV file was parsed successfully!';
           console.log(message);
 
           try {
-            await client.send(copyCommand);
+            await s3client.send(copyCommand);
             console.log('The file was copied to parsed folder');
-            await client.send(deleteCommand);
+            await s3client.send(deleteCommand);
             console.log('The file was deleted from uploaded folder');
 
             return resolve(message);
