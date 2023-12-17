@@ -5,7 +5,6 @@ import csv from 'csv-parser';
 
 import { ErrMsg, bucketName, queueUrl, region } from '../constants';
 import { getSaveErrorMsg } from '../utils';
-import { pseudoRandomBytes } from 'crypto';
 
 export const importFileParserService = async (key: string) => {
   try {

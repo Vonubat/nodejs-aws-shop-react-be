@@ -3,15 +3,25 @@ import 'source-map-support/register';
 import { App } from 'aws-cdk-lib';
 import { Bucket, EventType } from 'aws-cdk-lib/aws-s3';
 import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications';
-import { RestApi, Cors, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { RestApi, Cors, LambdaIntegration, ResponseType, TokenAuthorizer } from 'aws-cdk-lib/aws-apigateway';
+import { Runtime, Function } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { ImportServiceStack } from '../lib/import-service-stack';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
+import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { resolve } from 'path';
 import 'dotenv/config';
 
-import { HttpMethod, bucketName, catalogItemsQueueArn, prefix, region } from '../src/constants';
+import {
+  HttpMethod,
+  HttpStatusCode,
+  authorizerHeaders,
+  basicAuthorizerArn,
+  bucketName,
+  catalogItemsQueueArn,
+  prefix,
+  region,
+} from '../src/constants';
 
 const app = new App();
 const stack = new ImportServiceStack(app, 'ImportServiceStack', {
@@ -20,6 +30,7 @@ const stack = new ImportServiceStack(app, 'ImportServiceStack', {
 
 const bucket = Bucket.fromBucketName(stack, 'ImportBucket', bucketName);
 const queue = Queue.fromQueueArn(stack, 'CatalogItemsQueue', catalogItemsQueueArn);
+const authorizer = Function.fromFunctionArn(stack, 'BasicAuthorizerLambda', basicAuthorizerArn);
 
 const sharedLambdaProps: NodejsFunctionProps = {
   runtime: Runtime.NODEJS_18_X,
@@ -55,7 +66,37 @@ const api = new RestApi(stack, 'importApi', {
 const importResource = api.root.addResource('import');
 const importProductsFileIntegration = new LambdaIntegration(importProductsFile);
 
-importResource.addMethod(HttpMethod.GET, importProductsFileIntegration);
+api.addGatewayResponse('ImportProductsFileUnauthorized', {
+  type: ResponseType.UNAUTHORIZED,
+  statusCode: `${HttpStatusCode.UNAUTHORIZED}`,
+  responseHeaders: authorizerHeaders,
+});
+
+api.addGatewayResponse('ImportProductsFileForbidden', {
+  type: ResponseType.ACCESS_DENIED,
+  statusCode: `${HttpStatusCode.FORBIDDEN}`,
+  responseHeaders: authorizerHeaders,
+});
+
+const authRole = new Role(stack, 'ImportProductsFileAuthorizerRole', {
+  assumedBy: new ServicePrincipal('apigateway.amazonaws.com'),
+});
+
+authRole.addToPolicy(
+  new PolicyStatement({
+    actions: ['lambda:InvokeFunction'],
+    resources: [authorizer.functionArn],
+  }),
+);
+
+const importProductsFileAuthorizer = new TokenAuthorizer(stack, 'ImportProductsFileAuthorizer', {
+  handler: authorizer,
+  assumeRole: authRole,
+});
+
+importResource.addMethod(HttpMethod.GET, importProductsFileIntegration, {
+  authorizer: importProductsFileAuthorizer,
+});
 
 bucket.grantReadWrite(importProductsFile);
 bucket.grantDelete(importFileParser);

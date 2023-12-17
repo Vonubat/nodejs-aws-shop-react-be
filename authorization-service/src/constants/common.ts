@@ -4,10 +4,6 @@ export const basicHeaders = {
   'Access-Control-Allow-Headers': '*',
 };
 
-export const authorizerHeaders = {
-  'Access-Control-Allow-Origin': "'*'",
-};
-
 export enum HttpMethod {
   /** HTTP ANY */
   ANY = 'ANY',
@@ -82,4 +78,7 @@ export enum ErrMsg {
   S3_CLIENT_ERROR = 'A database operation failed while processing the request.',
   STREAM_ERROR_MISSING = 'Stream Readable object is missing',
   STREAM_ERROR_PARSING = 'CSV file parsing error',
+  TOKEN_INVALID = 'Invalid token',
+  UNAUTHORIZED = 'Unauthorized',
+  FORBIDDEN = 'Forbidden',
 }
